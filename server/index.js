@@ -29,10 +29,12 @@ app.use(cors({
   origin: [
     'http://localhost:5173',
     'https://prosimobile.vercel.app',
-    'https://prosimobile-i353b8t4i-cen21s-projects.vercel.app'
+    'https://prosimobile-git-main-cen21s-projects.vercel.app',
+    'https://prosimobile-qg7f2wzt6-cen21s-projects.vercel.app'
   ],
   credentials: true
 }));
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
