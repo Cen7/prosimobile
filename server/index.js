@@ -26,8 +26,12 @@ const upload = multer({ storage: storage });
 // const crypto = require('crypto');
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://prosi-mobile-kl9c-c722d89cz-otwtajirs-projects.vercel.app'], // Change to your frontend origin
-  credentials: true // Allow credentials to be sent
+  origin: [
+    'http://localhost:5173',
+    'https://prosimobile.vercel.app',
+    'https://prosimobile-i353b8t4i-cen21s-projects.vercel.app'
+  ],
+  credentials: true
 }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -56,14 +60,24 @@ function isAuthenticated(req, res, next) {
 
 
 const pool = mysql.createPool({
-  host: 'https://pretty-geese-hear.loca.lt', // URL dari LocalTunnel
-  port: 3306,                    // Port MySQL
-  multipleStatements: true,
-  user: "root",
-  password: "",
-  database: "prosi",
-  // host: "127.0.0.1",
+  host: process.env.DB_HOST,       // Host database
+  port: process.env.DB_PORT,       // Port database
+  user: process.env.DB_USER,       // Username database
+  password: process.env.DB_PASS,   // Password database
+  database: process.env.DB_DATABASE, // Nama database
+  multipleStatements: true,        // Jika Anda membutuhkan beberapa query dalam satu pernyataan
 });
+
+// Test connection
+pool.getConnection((err, connection) => {
+  if (err) {
+    console.error('Database connection failed:', err.stack);
+    return;
+  }
+  console.log('Connected to database');
+  connection.release();
+});
+
 
 app.post('/api/login', (req, res) => {
   const { identifier, password } = req.body;
